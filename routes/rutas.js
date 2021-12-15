@@ -1,5 +1,12 @@
 const express = require("express");
+const Usuario = require("../models/usuario")
+
 const router = express.Router();
+
+const usuarios = async () => {
+  let usuarios = await Usuario.find()
+  return usuarios
+}
 
 let usuariosDB = [
   {
@@ -131,8 +138,15 @@ let perfilDB = [
   },
 ];
 
-router.get("/usuarios", (req, res) => {
-  res.json(usuariosDB);
+router.get("/usuarios", async (req, res) => {
+  res.json(await usuarios());
+});
+
+router.post("/agregarUsuario", async (req, res) => {
+
+  let usuario = new Usuario(req.body)
+  await usuario.save();
+  res.json({mensaje: "Usuario agregado"});
 });
 
 router.get("/predios", (req, res) => {
