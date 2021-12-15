@@ -13,7 +13,6 @@ const usuarios = async () => {
 };
 
 const buscarUsuario = async (buscar) => {
-  console.log(buscar);
   let usuarios = await Usuario.find({ $or: [{ nombre: { $regex: buscar } }, { apellido: { $regex: buscar } }, { email: { $regex: buscar } }, { tipoUsuario: { $regex: buscar } }] });
 
   return usuarios;
@@ -26,7 +25,6 @@ const predios = async () => {
 };
 
 const buscarPredio = async (buscar) => {
-  console.log(buscar);
   let predios = await Predio.find({ $or: [{ nombre: { $regex: buscar } }, { usuario: { $regex: buscar } } ] });
 
   return predios;
@@ -39,7 +37,6 @@ const semillas = async () => {
 };
 
 const buscarSemilla = async (buscar) => {
-  console.log(buscar);
   let semillas = await Semilla.find({ $or: [{ nombre: { $regex: buscar } } ] });
 
   return semillas;
@@ -52,8 +49,7 @@ const cultivos = async () => {
 };
 
 const buscarCultivo = async (buscar) => {
-  console.log(buscar);
-  let cultivos = await Cultivo.find({ $or: [{ nombre: { $regex: buscar } } ] });
+  let cultivos = await Cultivo.find({ $or: [{ semilla: { $regex: buscar } } ] });
 
   return cultivos;
 };
