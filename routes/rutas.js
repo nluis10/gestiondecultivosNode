@@ -129,4 +129,12 @@ router.get("/perfil", (req, res) => {
   res.json(perfilDB);
 });
 
+router.delete("/eliminar_semilla/:value", async (req, res) => {
+  let semilla = Semilla.findById(req.params.value)
+  await semilla.deleteOne().catch(error => console.error('Error:', error))
+  .then(response => console.log('Success:', response));
+
+  res.json({mensaje: "Semilla eliminada correctamente."});
+});
+
 module.exports = router;
