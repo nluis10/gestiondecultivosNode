@@ -98,6 +98,16 @@ router.put('/editarPredio/:id', async (req, res) => {
 
   res.json({mensaje: "Predio actualizado"})
 })
+// Eliminar predio
+
+router.delete('/eliminarPredio/:id', async (req, res) => {
+
+  let predio = await Predio.findById(req.params.id)
+
+  await predio.deleteOne()
+
+  res.json({mensaje: "Predio eliminado"})
+})
 
 router.get("/semillas", async (req, res) => {
   let semillas = await Semilla.find();
@@ -173,6 +183,15 @@ router.put('/editarCultivo/:id', async (req, res) => {
   await cultivo.save()
 
   res.json({mensaje: "Cultivo actualizado"})
+})
+//Eliminar cultivo 
+router.delete('/eliminarCultivo/:id', async (req, res) => {
+
+  let cultivo = await Cultivo.findById(req.params.id)
+
+  await cultivo.deleteOne()
+
+  res.json({mensaje: "cultivo eliminado"})
 })
 
 router.get("/perfil", (req, res) => {
