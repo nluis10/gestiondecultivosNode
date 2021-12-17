@@ -129,4 +129,12 @@ router.get("/perfil", (req, res) => {
   res.json(perfilDB);
 });
 
+router.delete('/eliminarcultivos/:value', async (req, res) => {
+    let cultivos = Cultivo.findById(req.params.value)
+    await cultivos.deleteOne().catch(error => console.error('Error:', error))
+    .then(response => console.log('Success:', response));
+    
+    res.json({mensaje: "Cultivo eliminado correctamente"})
+})
+
 module.exports = router;
