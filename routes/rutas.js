@@ -54,6 +54,7 @@ const buscarCultivo = async (buscar) => {
   return cultivos;
 };
 
+
 let perfilDB = [
   {
     id: "001",
@@ -87,6 +88,15 @@ router.get("/predios", async (req, res) => {
 router.post("/buscarPredio", async (req, res) => {
   //console.log(req.body.buscar)
   res.json(await buscarPredio(req.body.buscar));
+});
+
+/// eliminar predios 
+router.delete("/eliminarPredio/:value", async (req, res) => {
+  let predio = Predio.findById(req.params.value)
+  await predio.deleteOne().catch(error => console.error('Error:', error))
+  .then(response => console.log('Success:', response));
+  //console.log(req.body.buscar)
+  res.json({mensaje: "Predio eliminado correctamente."});
 });
 
 router.post("/agregarPredio", async (req, res) => {
