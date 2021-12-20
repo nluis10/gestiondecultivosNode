@@ -32,6 +32,12 @@ rutas.post("/login", async (req, res) => {
   
     return res.json({
       mensaje: "Bienvenido",
+      id: usuarioDB._id,
+      usuario: usuarioDB.email,
+      nombre: usuarioDB.nombre,
+      apellido: usuarioDB.apellido,
+      telefono: usuarioDB.telefono,
+      tipoUsuario: usuarioDB.tipoUsuario,
       token: token
     })
   });
