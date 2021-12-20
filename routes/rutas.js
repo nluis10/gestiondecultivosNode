@@ -145,6 +145,15 @@ router.put('/editarSemilla/:id', async (req, res) => {
   res.json({mensaje: "Semilla actualizado"})
 })
 
+router.delete('/eliminarSemilla/:id', async (req, res) => {
+
+  let semilla = await Semilla.findById(req.params.id)
+
+  await semilla.deleteOne()
+
+  res.json({mensaje: "Semilla eliminado"})
+})
+
 router.get("/cultivos", async (req, res) => {
   let cultivos = await Cultivo.find();
   res.json(cultivos);
