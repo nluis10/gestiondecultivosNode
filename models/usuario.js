@@ -7,7 +7,8 @@ const UsuarioSchema = new Schema({
     apellido: String,
     email: String,
     telefono: String,
-    tipoUsuario: String
+    tipoUsuario: String,
+    contrasena: String
 })
 
 const Usuario = mongoose.model('usuarios', UsuarioSchema)
