@@ -10,7 +10,15 @@ const CultivoSchema = new Schema({
     agua: String,
     cantidadFertilizante: String,
     tiempoRecoleccion: String,
-    kgRecolectados: String
+    kgRecolectados: String,
+    totalKgSemilla: String,
+    totalMetrosAgua: String,
+    totalKgFertilizante: String,
+    totalKgRecolectados: String,
+    costoTotalSemilla: String,
+    costoTotalAgua: String,
+    costoTotalFertilizante: String,
+    tiempoTotalRecoleccion: String,
 })
 
 const Cultivo = mongoose.model('cultivos', CultivoSchema)

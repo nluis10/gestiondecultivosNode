@@ -10,12 +10,7 @@ const rutas = express.Router();
 
 let perfilDB = [
   {
-    id: "001",
-    nombre: "Sandra Milena",
-    apellido: "Gutierrez",
-    email: "sgutierrez@uninorte.edu.co",
-    telefono: "3009895214",
-    tipoUsuario: "Administrador",
+
   },
 ];
 
@@ -28,6 +23,48 @@ rutas.get("/usuarios", async (req, res) => {
 rutas.get("/usuario/:id", async (req, res) => {
   let usuarioId = await Usuario.findById(req.params.id);
   res.json(usuarioId);
+});
+
+rutas.post("/verificarContrasena/:id", async (req, res) => {
+  let usuarioId = await Usuario.findById(req.params.id);
+
+  let validarPassword = await bcrypt.compare(req.body.contrasenaActual, usuarioId.contrasena);
+
+  if (!validarPassword) {
+    return res.json({
+      mensaje: "Contraseña actual invalida",
+    });
+  }else {
+    return res.json({
+      mensaje: "CORRECTA",
+    });
+  }
+});
+
+rutas.put("/actualizarContrasena/:id", async (req, res) => {
+
+  let salt = await bcrypt.genSalt(12);
+  let password = await bcrypt.hash(req.body.contrasenaNueva, salt);
+
+  const usuario = await Usuario.updateMany(
+    { _id: req.params.id } ,
+    { $set: { contrasena: password} }
+ )
+  res.json(usuario);
+});
+
+rutas.put("/editarUsuario/:id", async (req, res) => {
+  const usuario = await Usuario.findById(req.params.id);
+
+  usuario.nombre = req.body.nombre;
+  usuario.apellido = req.body.apellido;
+  usuario.email = req.body.email;
+  usuario.telefono = req.body.telefono;
+  usuario.tipoUsuario = req.body.tipoUsuario;
+
+  await usuario.save();
+
+  res.json({ mensaje: "Usuario actualizado" });
 });
 
 rutas.get("/usuarioEmail/:email", async (req, res) => {
@@ -135,6 +172,11 @@ rutas.get("/semilla/:id", async (req, res) => {
   res.json(semillaId);
 });
 
+rutas.get("/semillaNombre/:nombre", async (req, res) => {
+  let semilla = await Semilla.findOne({ nombre: req.params.nombre });
+  res.json(semilla);
+});
+
 rutas.post("/buscarSemilla", async (req, res) => {
   let buscar = req.body.buscar;
   let semillas = await Semilla.find({ $or: [{ nombre: { $regex: buscar } }] });
@@ -201,6 +243,17 @@ rutas.put("/editarCultivo/:id", async (req, res) => {
   cultivo.cantidadFertilizante = req.body.cantidadFertilizante;
   cultivo.tiempoRecoleccion = req.body.tiempoRecoleccion;
   cultivo.kgRecolectados = req.body.kgRecolectados;
+
+  cultivo.totalKgSemilla = req.body.totalKgSemilla;
+  cultivo.totalMetrosAgua = req.body.totalMetrosAgua;
+  cultivo.totalKgFertilizante = req.body.totalKgFertilizante;
+  cultivo.totalKgRecolectados = req.body.totalKgRecolectados;
+  cultivo.costoTotalSemilla = req.body.costoTotalSemilla;
+  cultivo.costoTotalAgua = req.body.costoTotalAgua;
+  cultivo.costoTotalFertilizante = req.body.costoTotalFertilizante;
+  cultivo.tiempoTotalRecoleccion = req.body.tiempoTotalRecoleccion;
+
+
 
   await cultivo.save();
 
